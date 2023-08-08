@@ -19,108 +19,45 @@ This tutorial outlines the setup, installation, and use of the Active Directory 
 
 <h2>List of Prerequisites</h2>
 
-- Task 1 Create Resource Group and Virtual Machine
-- Task 2 Upload and Install files
-- Task 3 Create osTicket Account 
-- Task 4 Login
+- Task 1 Create DC-1 and Client-1
+- Task 2 Ping DC
+- Task 3 Setup Active Directory 
+- Task 4 Create Jane Doe Admin
+- Task 5 login as Jane Doe
+- Task 6 Change DNS
+- Task 7 Import and run script for authorized users
+- Task 8 cep.jum chosen from list
+- Task 9 Lockout cem.kaf and unlock for test
 
 
-<h2>Installation Steps</h2>
+<h2>Create DC-1 and Client-1<h2>
 
 <p>
-<img src="https://i.imgur.com/XPGPUe3.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://imgur.com/E9m0Z2o.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-First, we are going to Create a Resource Group and Create a Windows 10 Virtual Machine (VM) with 2-4 Virtual CPUs. Once this is done we are going to log into the Virtual machine using the Microsoft remote desktop application.
+To begin, we are creating virtual machines through Azure for both DC1 and Client1 that will serve as the sandbox for the entire lab. Be sure to confirm that the virtual network is identical for both of the machines. 
  
   * I am working on a macbook💻. 
 
 </p>
 <br />
-
+<h2>Ping DC<h2>
 <p>
-<img src="https://i.imgur.com/gsmMAym.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://imgur.com/SnnQ7oN.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Step two may prove to be the most difficult portion of the lab and I suggest referring to the video linked above to follow along with the intricacies of downloading and installing these files. That being said we will be running IIS (Internet Information Services) as an administrator to enable CGI. Once this is done we will download and install each of the files and applications from the Installation Files list. One of the most important of these being the PHP manager. Create a new file in the windows directory C:\PHP. 
+Now that both virtual machines are created we are going to open up the command line and attempt to ping DC1 from the client machine. This attempt will inevitably fail. Why? The (Internet Control Message Protocol) ICMP for our DC is disabled and needs to be enabled. Navigate to the windows defender firewall, choose the inbound rules, filter for protocol and find the core diagnostics networking echo. enable it and check the ping again from the client machine. The ping should no longer time out. 
 
-At that point the installation steps go as follows: 
-
-  Download PHP 7.3.8 and unzip the contents into C:\PHP
-
-  Download and install VC_redist.x86.exe.
-
-  Download and install MySQL 5.5.62 
-* Typical Setup 
-* Launch Configuration Wizard (after install) 
-* Standard Configuration 
-* Username - root
-* Password - Password1
-
-Open IIS as an Admin
-
-Register PHP from within IIS
-
-Reload IIS (Open IIS, Stop and Start the server)
-
-Install osTicket v1.15.8
-Download osTicket from the Installation Files Folder
-Extract and copy “upload” folder to c:\inetpub\wwwroot
-Within c:\inetpub\wwwroot, Rename “upload” to “osTicket”
-
-Reload IIS (Open IIS, Stop and Start the server)
-
-Go to sites -> Default -> osTicket
-On the right, click “Browse *:80”
-
-Some extensions will be disabled
-
-Enable them by going back to IIS, sites -> Default -> osTicket
-
-Double-click PHP Manager
-
-Click “Enable or disable an extension”
-
-Enable: php_imap.dll, php_intl.dll, php_opcache.dll
-
-Refresh the osTicket site in your IIS browse, review the changes
-
-Rename: ost-sampleconfig.php file to ost-config.php
-
-From: C:\inetpub\wwwroot\osTicket\include\ost-sampleconfig.php
-
-To: C:\inetpub\wwwroot\osTicket\include\ost-config.php
-
-Assign Permissions: ost-config.php
-
-Disable inheritance -> Remove All
-New Permissions -> Everyone -> All
 
 </p>
 <br />
-
+<h2>Setup Active Directory<h2>
 <p>
-<img src="https://i.imgur.com/FoeGRR0.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://imgur.com/qvca5tf.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Continue creating osTicket by creating an agent/admin account login. Once this is completed we are going to create a SQL databse in Heidi SQL. 
-Follow the instructions below:
-
-  Download and install HeidiSQL.
-
-  Open Heidi SQL
-
-  Create a new session, root/Password1
-
-  Connect to the session
-
-  Create a database called “osTicket”
-
-  Enter this database information into your account login 
-  
-  Use the root username and Password1 from the SQL installation portion
-
-  Click “Install Now!”
+After that we will setup and install Active Directory from the DC and set the domain. Open the task manager if it is not already open. Click the add roles and features option and begin the installation of Active Directory including its' extension files. During this process you will be asked to create a domain name for this network of users you are preparing to create. 
 
 </p>
 <br />
